@@ -23,10 +23,10 @@ pipeline {
       }
     }
 
-    stage('Push Image') {
+    stage('Push Flask Image') {
       steps{
         script {
-          docker.withRegistry( "" ) {
+          withDockerRegistry([ credentialsId: "dockerhub2", url: "" ]) {
             dockerImage.push()
           }
         }
@@ -42,8 +42,10 @@ pipeline {
    }
    stage('Build mysql image') {
      steps{
-       sh 'docker build -t "10.138.0.3:5001/4nand/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
-        sh 'docker push "10.138.0.3:5001/4nand/mysql:$BUILD_NUMBER"'
+       script {
+       withDockerRegistry([ credentialsId: "dockerhub2", url: "" ]) { 
+       sh 'docker build -t "4nand/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
+        sh 'docker push "4nand/mysql:$BUILD_NUMBER"'
         }
       }
     stage('Deploy App') {
