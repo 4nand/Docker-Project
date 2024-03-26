@@ -1,8 +1,8 @@
 pipeline {
 
   environment {
-    registry = "10.138.0.3:5001/4nand/flask"
-    registry_mysql = "10.138.0.3:5001/4nand/mysql"
+    registry = "4nand/flask"
+    registry_mysql = "4nand/mysql"
     dockerImage = ""
   }
 
